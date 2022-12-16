@@ -1,0 +1,63 @@
+<div class="row" style="padding: 15px; width: 85%;">
+  <div class="col-md-9 offset-md-1">
+    <div class="input-group mb-3">
+      <input (keyup)="search()" type="text" class="form-control" placeholder="Search using product name or brand.."
+        [(ngModel)]="searchText">
+      <div class="input-group-btn">
+        <button class="btn btn-success" (click)="search()" type="button">Search</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<br>
+<br>
+
+<div *ngIf="productListToDisplay.length!=null && productListToDisplay.length>0">
+  <div *ngIf="!viewDetails">
+      <div class="row">
+          <div class="card-group">
+              <div *ngFor="let product of productListToDisplay" style="padding: 2px;">
+                  <a [routerLink]="" class="nav-link" (click)="setSelectedProduct(product)">
+                      <div class="card hoverable">
+                          <div class="card-header text-white bg-info">
+                              <div class="text-truncate">{{product.brand+" - "+product.name}}</div>
+                          </div>
+                          <div class="card-body">
+                              <div class="image-box">
+                                <img [src]="'assets/resources/'+ product.productId+'.jpg'" class="img-responsive center-block"
+                                  alt="Image Not Found" onError="this.src='assets/resources/404.png'">
+                              </div>
+                          </div>
+                          <div class="card-footer">
+                              <span class="success-message">
+                                  <p>
+                                      <strong>Rs.{{product.price}}</strong>
+                                  </p>
+                              </span>
+                          </div>
+                      </div>   
+                  </a>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+<div *ngIf="productListToDisplay.length==0">
+  <div class="field-error-message" style="font-size:20px;">No products available!!</div>
+</div>
+
+
+<div *ngIf="viewDetails">
+  <div class="row">
+    <div class="col-md-2">
+      <a [routerLink]="" (click)="viewDetails=false" class="btn btn-dark">
+        Back
+      </a>
+    </div>
+  </div>
+  <br>
+  <app-customer-product-details [selectedProduct]="selectedProduct"></app-customer-product-details>
+</div>
